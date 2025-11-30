@@ -34,7 +34,7 @@ namespace DDD.Presentation.Services
             var existing = await _context.Cidades.FindAsync(id);
             if (existing == null) return null;
             existing.CIDNOME = cidade.CIDNOME;
-            existing.CIDUF   = cidade.CIDUF;
+            existing.CIDUF = cidade.CIDUF;
             await _context.SaveChangesAsync();
             return existing;
         }

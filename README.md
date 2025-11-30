@@ -1,4 +1,4 @@
-# DDD API (.NET 8, SQL Server)
+# API (.NET 10, SQL Server)
 
 ## Descrição
 API RESTful desenvolvida em .NET com arquitetura DDD, Entity Framework Core e SQL Server. Permite gerenciar Estados, Cidades e Locais turísticos, com campos de situação e seed automático de dados.
@@ -48,5 +48,7 @@ Ao iniciar a aplicação, 5 registros de cada entidade são inseridos automatica
 
 ## Contato
 Autor: [Marcos Felipe Gava da Cruz]
+
 Contato: [marcosfelipegava@gmail.com]
+
 LinkedIn: [(https://www.linkedin.com/in/marcos-felipe-gava-093910263/)]

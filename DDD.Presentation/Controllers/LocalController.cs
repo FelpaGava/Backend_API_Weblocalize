@@ -53,5 +53,12 @@ namespace DDD.Presentation.Controllers
             if (!deleted) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("busca/{termo}")]
+        public async Task<ActionResult<IEnumerable<Local>>> Search(string termo)
+        {
+            var resultados = await _service.SearchByNomeAsync(termo);
+            return Ok(resultados);
+        }
     }
 }

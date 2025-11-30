@@ -22,6 +22,20 @@ namespace DDD.Presentation.Services
             return await _context.Locais.Include(l => l.Cidade).Include(l => l.Estado).FirstOrDefaultAsync(l => l.LOCID == id);
         }
 
+        public async Task<List<Local>> SearchByNomeAsync(string termo)
+        {
+            if (string.IsNullOrEmpty(termo))
+            {
+                return new List<Local>();
+            }
+
+            return await _context.Locais
+                .Include(l => l.Cidade) 
+                .Include(l => l.Estado)
+                .Where(l => l.LOCNOME.Contains(termo)) 
+                .ToListAsync();
+        }
+
         public async Task<Local> AddAsync(Local local)
         {
             _context.Locais.Add(local);
@@ -34,8 +48,8 @@ namespace DDD.Presentation.Services
             var existing = await _context.Locais.FindAsync(id);
             if (existing == null) return null;
             existing.LOCNOME = local.LOCNOME;
-            existing.LOCCID  = local.LOCCID;
-            existing.LOCUF   = local.LOCUF;
+            existing.LOCCID = local.LOCCID;
+            existing.LOCUF = local.LOCUF;
             await _context.SaveChangesAsync();
             return existing;
         }

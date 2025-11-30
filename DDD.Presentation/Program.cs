@@ -14,6 +14,14 @@ builder.Services.AddScoped<DDD.Presentation.Services.EstadoService>();
 builder.Services.AddScoped<DDD.Presentation.Services.CidadeService>();
 builder.Services.AddScoped<DDD.Presentation.Services.LocalService>();
 
+builder.Services.AddCors(options => 
+{
+    options.AddPolicy("AllowSpecificOrigin", builder => 
+        builder.WithOrigins("*")
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+});
+
 builder.Services.AddDbContext<WebLocalizeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
