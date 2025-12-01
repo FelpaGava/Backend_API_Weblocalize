@@ -14,12 +14,14 @@ builder.Services.AddScoped<DDD.Presentation.Services.EstadoService>();
 builder.Services.AddScoped<DDD.Presentation.Services.CidadeService>();
 builder.Services.AddScoped<DDD.Presentation.Services.LocalService>();
 
-builder.Services.AddCors(options => 
+builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", builder => 
-        builder.WithOrigins("*")
-               .AllowAnyMethod()
-               .AllowAnyHeader());
+    options.AddPolicy("TodasPortas", builder =>
+    {
+        builder.AllowAnyOrigin()  
+               .AllowAnyMethod()   
+               .AllowAnyHeader();  
+    });
 });
 
 builder.Services.AddDbContext<WebLocalizeDbContext>(options =>
@@ -40,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("TodasPortas"); 
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
