@@ -4,6 +4,8 @@ namespace DDD.Infrastructure.Entities
     {
         public int LOCID { get; set; }
         public string LOCNOME { get; set; } = string.Empty;
+        public string LOCDESCRICAO { get; set; } = string.Empty;
+        public string LOCENDERECO { get; set; } = string.Empty;
         public int LOCCID { get; set; }
         public char LOCSITUACAO { get; set; }
         public Cidade Cidade { get; set; } = null!;

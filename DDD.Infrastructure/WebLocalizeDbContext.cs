@@ -38,6 +38,8 @@ namespace DDD.Infrastructure
                 entity.HasKey(l => l.LOCID);
                 entity.Property(l => l.LOCID).ValueGeneratedOnAdd();
                 entity.Property(l => l.LOCNOME).HasMaxLength(100);
+                entity.Property(l => l.LOCDESCRICAO).HasMaxLength(100);
+                entity.Property(l => l.LOCENDERECO).HasMaxLength(100);
                 entity.Property(l => l.LOCSITUACAO).HasColumnType("char(1)");
                 entity.HasOne(l => l.Cidade)
                     .WithMany(c => c.Locais)
