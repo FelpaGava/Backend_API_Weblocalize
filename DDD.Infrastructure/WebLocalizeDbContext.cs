@@ -42,13 +42,13 @@ namespace DDD.Infrastructure
                 entity.Property(l => l.LOCENDERECO).HasMaxLength(100);
                 entity.Property(l => l.LOCSITUACAO).HasColumnType("char(1)");
                 entity.HasOne(l => l.Cidade)
-                    .WithMany(c => c.Locais)
-                    .HasForeignKey(l => l.LOCCID)
-                    .OnDelete(DeleteBehavior.NoAction);
+                      .WithMany(c => c.Locais)
+                      .HasForeignKey(l => l.LOCCID)
+                      .OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(l => l.Estado)
-                    .WithMany(e => e.Locais)
-                    .HasForeignKey(l => l.LOCUF)
-                    .OnDelete(DeleteBehavior.NoAction);
+                      .WithMany(e => e.Locais)
+                      .HasForeignKey(l => l.LOCUF)
+                      .OnDelete(DeleteBehavior.NoAction);
             });
         }
     }

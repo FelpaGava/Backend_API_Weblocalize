@@ -32,7 +32,7 @@ namespace DDD.Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Local>> AddLocal(LocalDto dto)
         {
-            var local = new Local { LOCNOME = dto.LOCNOME, LOCDESCRICAO = dto.LOCDESCRICAO, LOCENDERECO = dto.LOCENDERECO, LOCCID = dto.LOCCID, LOCUF = dto.LOCUF };
+            var local = new Local { LOCNOME = dto.LOCNOME, LOCDESCRICAO = dto.LOCDESCRICAO, LOCENDERECO = dto.LOCENDERECO, LOCCID = dto.LOCCID, LOCUF = dto.LOCUF, LOCSITUACAO = dto.LOCSITUACAO };
             var created = await _service.AddAsync(local);
             return CreatedAtAction(nameof(GetLocal), new { id = created.LOCID }, created);
         }
