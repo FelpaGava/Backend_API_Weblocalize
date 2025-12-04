@@ -2,6 +2,7 @@ using DDD.Infrastructure.Entities;
 using DDD.Presentation.Services;
 using DDD.Presentation.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace DDD.Presentation.Controllers
 {
@@ -21,6 +22,18 @@ namespace DDD.Presentation.Controllers
             return await _service.GetAllAsync();
         }
 
+        [HttpGet("buscar-por-nome")]
+        public async Task<IActionResult> BuscarPorNome([FromQuery] string nome, [FromQuery] int ufId)
+        {
+            var cidade = await _service.GetByNomeAndUfAsync(nome, ufId);
+
+            if (cidade == null)
+            {
+                return NotFound();
+            }
+            return Ok(cidade); 
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Cidade>> GetCidade(int id)
         {
@@ -32,7 +45,7 @@ namespace DDD.Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Cidade>> AddCidade(CidadeDto dto)
         {
-            var cidade = new Cidade { CIDNOME = dto.CIDNOME, CIDUF = dto.CIDUF };
+            var cidade = new Cidade { CIDNOME = dto.CIDNOME, CIDUF = dto.CIDUF, CIDSITUACAO = dto.CIDSITUACAO };
             var created = await _service.AddAsync(cidade);
             return CreatedAtAction(nameof(GetCidade), new { id = created.CIDID }, created);
         }

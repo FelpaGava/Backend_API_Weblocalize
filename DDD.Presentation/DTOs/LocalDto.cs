@@ -8,5 +8,6 @@ namespace DDD.Presentation.Dtos
         public int LOCCID { get; set; }
         public int LOCUF { get; set; }
         public char LOCSITUACAO { get; set; }
+        public DateTime LOCDATACRIACAO { get; set; }
     }
 }

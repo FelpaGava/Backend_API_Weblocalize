@@ -20,6 +20,9 @@ namespace DDD.Infrastructure
                 entity.Property(e => e.UFNOME).HasMaxLength(255);
                 entity.Property(e => e.UFSIGLA).HasMaxLength(2);
                 entity.Property(e => e.UFSITUACAO).HasColumnType("char(1)");
+                entity.Property(e => e.UFDATACRIACAO)
+                      .HasColumnType("datetime")
+                      .HasDefaultValueSql("GETDATE()");
             });
 
             modelBuilder.Entity<Cidade>(entity =>
@@ -28,6 +31,9 @@ namespace DDD.Infrastructure
                 entity.Property(c => c.CIDID).ValueGeneratedOnAdd();
                 entity.Property(c => c.CIDNOME).HasMaxLength(255);
                 entity.Property(c => c.CIDSITUACAO).HasColumnType("char(1)");
+                entity.Property(c => c.CIDDATACRIACAO)
+                      .HasColumnType("datetime")
+                      .HasDefaultValueSql("GETDATE()");
                 entity.HasOne(c => c.Estado)
                       .WithMany(e => e.Cidades)
                       .HasForeignKey(c => c.CIDUF);
@@ -41,6 +47,9 @@ namespace DDD.Infrastructure
                 entity.Property(l => l.LOCDESCRICAO).HasMaxLength(100);
                 entity.Property(l => l.LOCENDERECO).HasMaxLength(100);
                 entity.Property(l => l.LOCSITUACAO).HasColumnType("char(1)");
+                entity.Property(l => l.LOCDATACRIACAO)
+                      .HasColumnType("datetime")
+                      .HasDefaultValueSql("GETDATE()");
                 entity.HasOne(l => l.Cidade)
                       .WithMany(c => c.Locais)
                       .HasForeignKey(l => l.LOCCID)

@@ -32,7 +32,7 @@ namespace DDD.Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Estado>> AddEstado(EstadoDto dto)
         {
-            var estado = new Estado { UFNOME = dto.UFNOME, UFSIGLA = dto.UFSIGLA };
+            var estado = new Estado { UFNOME = dto.UFNOME, UFSIGLA = dto.UFSIGLA, UFSITUACAO = dto.UFSITUACAO};
             var created = await _service.AddAsync(estado);
             return CreatedAtAction(nameof(GetEstado), new { id = created.UFID }, created);
         }

@@ -4,5 +4,6 @@ namespace DDD.Presentation.Dtos
     {
         public string UFNOME { get; set; } = string.Empty;
         public string UFSIGLA { get; set; } = string.Empty;
+        public char UFSITUACAO { get; set; } = 'A';
     }
 }
