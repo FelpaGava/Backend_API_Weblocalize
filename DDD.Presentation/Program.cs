@@ -1,6 +1,7 @@
 using DDD.Infrastructure;
 using DDD.Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true; // Ignorar case ao desserializar JSON
 });
 builder.Services.AddScoped<DDD.Presentation.Services.EstadoService>();
 builder.Services.AddScoped<DDD.Presentation.Services.CidadeService>();
@@ -26,6 +28,12 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<WebLocalizeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true; 
+    options.LowercaseQueryStrings = true; 
+});
 
 var app = builder.Build();
 

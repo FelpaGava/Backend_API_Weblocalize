@@ -19,7 +19,7 @@ namespace DDD.Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cidade>>> GetCidades()
         {
-            return await _service.GetAllAsync();
+            return await _service.GetAllAtivosAsync(); // Retorna apenas registros com SITUACAO = 'A'
         }
 
         [HttpGet("buscar-por-nome")]
@@ -37,7 +37,7 @@ namespace DDD.Presentation.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Cidade>> GetCidade(int id)
         {
-            var cidade = await _service.GetByIdAsync(id);
+            var cidade = await _service.GetByIdAtivoAsync(id); // Retorna apenas se SITUACAO = 'A'
             if (cidade == null) return NotFound();
             return cidade;
         }
@@ -45,7 +45,7 @@ namespace DDD.Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Cidade>> AddCidade(CidadeDto dto)
         {
-            var cidade = new Cidade { CIDNOME = dto.CIDNOME, CIDUF = dto.CIDUF, CIDSITUACAO = dto.CIDSITUACAO };
+            var cidade = new Cidade { CIDNOME = dto.CIDNOME, CIDUF = dto.CIDUF, CIDSITUACAO = 'A' }; // Sempre ativo ao criar
             var created = await _service.AddAsync(cidade);
             return CreatedAtAction(nameof(GetCidade), new { id = created.CIDID }, created);
         }
@@ -64,6 +64,14 @@ namespace DDD.Presentation.Controllers
         {
             var deleted = await _service.DeleteAsync(id);
             if (!deleted) return NotFound();
+            return NoContent();
+        }
+
+        [HttpPut("{id}/desativar")]
+        public async Task<IActionResult> DesativarCidade(int id)
+        {
+            var sucesso = await _service.DesativarAsync(id, 'I'); // Atualiza SITUACAO para 'I'
+            if (!sucesso) return NotFound();
             return NoContent();
         }
     }

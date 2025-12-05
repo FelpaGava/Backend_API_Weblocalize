@@ -17,9 +17,26 @@ namespace DDD.Presentation.Services
             return await _context.Locais.Include(l => l.Cidade).Include(l => l.Estado).ToListAsync();
         }
 
+        public async Task<List<Local>> GetAllAtivosAsync()
+        {
+            return await _context.Locais
+                .Include(l => l.Cidade)
+                .Include(l => l.Estado)
+                .Where(l => l.LOCSITUACAO == 'A') // Apenas ativos
+                .ToListAsync();
+        }
+
         public async Task<Local?> GetByIdAsync(int id)
         {
             return await _context.Locais.Include(l => l.Cidade).Include(l => l.Estado).FirstOrDefaultAsync(l => l.LOCID == id);
+        }
+
+        public async Task<Local?> GetByIdAtivoAsync(int id)
+        {
+            return await _context.Locais
+                .Include(l => l.Cidade)
+                .Include(l => l.Estado)
+                .FirstOrDefaultAsync(l => l.LOCID == id && l.LOCSITUACAO == 'A'); // Apenas ativo
         }
 
         public async Task<List<Local>> SearchByNomeAsync(string termo)
@@ -43,13 +60,15 @@ namespace DDD.Presentation.Services
             return local;
         }
 
-        public async Task<Local?> UpdateAsync(int id, Local local)
+        public async Task<Local?> UpdateAsync(int id, string nome, string endereco, string descricao)
         {
             var existing = await _context.Locais.FindAsync(id);
             if (existing == null) return null;
-            existing.LOCNOME = local.LOCNOME;
-            existing.LOCCID = local.LOCCID;
-            existing.LOCUF = local.LOCUF;
+
+            existing.LOCNOME = nome;
+            existing.LOCENDERECO = endereco;
+            existing.LOCDESCRICAO = descricao;
+
             await _context.SaveChangesAsync();
             return existing;
         }
@@ -59,6 +78,15 @@ namespace DDD.Presentation.Services
             var local = await _context.Locais.FindAsync(id);
             if (local == null) return false;
             _context.Locais.Remove(local);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DesativarAsync(int id, char situacao)
+        {
+            var local = await _context.Locais.FindAsync(id);
+            if (local == null) return false;
+            local.LOCSITUACAO = situacao; // Atualiza situação
             await _context.SaveChangesAsync();
             return true;
         }

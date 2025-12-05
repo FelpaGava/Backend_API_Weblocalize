@@ -18,13 +18,13 @@ namespace DDD.Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Local>>> GetLocais()
         {
-            return await _service.GetAllAsync();
+            return await _service.GetAllAtivosAsync(); // Retorna apenas registros com SITUACAO = 'A'
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Local>> GetLocal(int id)
         {
-            var local = await _service.GetByIdAsync(id);
+            var local = await _service.GetByIdAtivoAsync(id); // Retorna apenas se SITUACAO = 'A'
             if (local == null) return NotFound();
             return local;
         }
@@ -32,7 +32,7 @@ namespace DDD.Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Local>> AddLocal(LocalDto dto)
         {
-            var local = new Local { LOCNOME = dto.LOCNOME, LOCDESCRICAO = dto.LOCDESCRICAO, LOCENDERECO = dto.LOCENDERECO, LOCCID = dto.LOCCID, LOCUF = dto.LOCUF, LOCSITUACAO = dto.LOCSITUACAO };
+            var local = new Local { LOCNOME = dto.LOCNOME, LOCDESCRICAO = dto.LOCDESCRICAO, LOCENDERECO = dto.LOCENDERECO, LOCCID = dto.LOCCID, LOCUF = dto.LOCUF, LOCSITUACAO = 'A' }; // Sempre ativo ao criar
             var created = await _service.AddAsync(local);
             return CreatedAtAction(nameof(GetLocal), new { id = created.LOCID }, created);
         }
@@ -40,8 +40,7 @@ namespace DDD.Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Local>> UpdateLocal(int id, LocalDto dto)
         {
-            var local = new Local { LOCNOME = dto.LOCNOME, LOCCID = dto.LOCCID, LOCUF = dto.LOCUF };
-            var updated = await _service.UpdateAsync(id, local);
+            var updated = await _service.UpdateAsync(id, dto.LOCNOME, dto.LOCENDERECO, dto.LOCDESCRICAO);
             if (updated == null) return NotFound();
             return updated;
         }
@@ -54,11 +53,20 @@ namespace DDD.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpGet("busca/{termo}")]
-        public async Task<ActionResult<IEnumerable<Local>>> Search(string termo)
+        [HttpPut("{id}/desativar")]
+        public async Task<IActionResult> DesativarLocal(int id)
         {
-            var resultados = await _service.SearchByNomeAsync(termo);
-            return Ok(resultados);
+            var sucesso = await _service.DesativarAsync(id, 'I'); // Atualiza SITUACAO para 'I'
+            if (!sucesso) return NotFound();
+            return NoContent();
+        }
+
+        [HttpGet("buscar-por-termo")]
+        public async Task<ActionResult<IEnumerable<Local>>> PesquiseLocalTermo([FromQuery] string termo)
+        {
+            var locais = await _service.SearchByNomeAsync(termo);
+            if (locais == null || !locais.Any()) return NotFound();
+            return Ok(locais);
         }
     }
 }
