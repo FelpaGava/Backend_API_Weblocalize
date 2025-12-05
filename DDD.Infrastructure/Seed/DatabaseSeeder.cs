@@ -1,4 +1,4 @@
-using DDD.Infrastructure.Entities;
+using DDD.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DDD.Infrastructure.Seed

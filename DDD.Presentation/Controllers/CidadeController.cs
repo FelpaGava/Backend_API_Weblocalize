@@ -1,5 +1,5 @@
-using DDD.Infrastructure.Entities;
-using DDD.Presentation.Services;
+using DDD.Domain.Entities;
+using DDD.Application.Services;
 using DDD.Presentation.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

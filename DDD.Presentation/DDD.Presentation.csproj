@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DDD.Infrastructure\DDD.Infrastructure.csproj" />
+    <ProjectReference Include="..\DDD.Application\DDD.Application.csproj" />
+    <ProjectReference Include="..\DDD.Domain\DDD.Domain.csproj" />
   </ItemGroup>
 
 </Project>

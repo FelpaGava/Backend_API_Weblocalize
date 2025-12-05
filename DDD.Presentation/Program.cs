@@ -12,9 +12,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true; 
 });
-builder.Services.AddScoped<DDD.Presentation.Services.EstadoService>();
-builder.Services.AddScoped<DDD.Presentation.Services.CidadeService>();
-builder.Services.AddScoped<DDD.Presentation.Services.LocalService>();
+
+builder.Services.AddScoped<DDD.Application.Services.EstadoService>();
+builder.Services.AddScoped<DDD.Application.Services.CidadeService>();
+builder.Services.AddScoped<DDD.Application.Services.LocalService>();
 
 builder.Services.AddCors(options =>
 {
