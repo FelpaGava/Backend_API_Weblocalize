@@ -17,7 +17,6 @@ namespace DDD.Presentation.Services
 
         public async Task<List<Cidade>> GetAllAsync()
         {
-            // .AsNoTracking() melhora performance para listas apenas de leitura
             return await _context.Cidades
                 .AsNoTracking()
                 .Include(c => c.Estado)
@@ -29,11 +28,10 @@ namespace DDD.Presentation.Services
             return await _context.Cidades
                 .AsNoTracking()
                 .Include(c => c.Estado)
-                .Where(c => c.CIDSITUACAO == 'A') // Apenas ativos
+                .Where(c => c.CIDSITUACAO == 'A')
                 .ToListAsync();
         }
 
-        // Adicione a interrogação '?' aqui no retorno V
         public async Task<Cidade?> GetByNomeAndUfAsync(string nome, int ufId)
         {
             if (string.IsNullOrWhiteSpace(nome)) return null;
@@ -57,7 +55,7 @@ namespace DDD.Presentation.Services
             return await _context.Cidades
                 .AsNoTracking()
                 .Include(c => c.Estado)
-                .FirstOrDefaultAsync(c => c.CIDID == id && c.CIDSITUACAO == 'A'); // Apenas ativo
+                .FirstOrDefaultAsync(c => c.CIDID == id && c.CIDSITUACAO == 'A');
         }
 
         public async Task<Cidade> AddAsync(Cidade cidade)
@@ -75,7 +73,6 @@ namespace DDD.Presentation.Services
             existing.CIDNOME = cidade.CIDNOME;
             existing.CIDUF = cidade.CIDUF;
 
-            // Atualiza situação se válida
             if (cidade.CIDSITUACAO != '\0' && cidade.CIDSITUACAO != ' ')
             {
                 existing.CIDSITUACAO = cidade.CIDSITUACAO;
@@ -99,7 +96,7 @@ namespace DDD.Presentation.Services
         {
             var cidade = await _context.Cidades.FindAsync(id);
             if (cidade == null) return false;
-            cidade.CIDSITUACAO = situacao; // Atualiza situação
+            cidade.CIDSITUACAO = situacao;
             await _context.SaveChangesAsync();
             return true;
         }

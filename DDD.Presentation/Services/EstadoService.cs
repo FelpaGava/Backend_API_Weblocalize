@@ -20,7 +20,7 @@ namespace DDD.Presentation.Services
         public async Task<List<Estado>> GetAllAtivosAsync()
         {
             return await _context.Estados
-                .Where(e => e.UFSITUACAO == 'A') // Apenas ativos
+                .Where(e => e.UFSITUACAO == 'A')
                 .ToListAsync();
         }
 
@@ -32,7 +32,7 @@ namespace DDD.Presentation.Services
         public async Task<Estado?> GetByIdAtivoAsync(int id)
         {
             return await _context.Estados
-                .FirstOrDefaultAsync(e => e.UFID == id && e.UFSITUACAO == 'A'); // Apenas ativo
+                .FirstOrDefaultAsync(e => e.UFID == id && e.UFSITUACAO == 'A');
         }
 
         public async Task<Estado> AddAsync(Estado estado)
@@ -65,7 +65,7 @@ namespace DDD.Presentation.Services
         {
             var estado = await _context.Estados.FindAsync(id);
             if (estado == null) return false;
-            estado.UFSITUACAO = situacao; // Atualiza situação
+            estado.UFSITUACAO = situacao;
             await _context.SaveChangesAsync();
             return true;
         }

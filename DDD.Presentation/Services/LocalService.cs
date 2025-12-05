@@ -22,7 +22,7 @@ namespace DDD.Presentation.Services
             return await _context.Locais
                 .Include(l => l.Cidade)
                 .Include(l => l.Estado)
-                .Where(l => l.LOCSITUACAO == 'A') // Apenas ativos
+                .Where(l => l.LOCSITUACAO == 'A')
                 .ToListAsync();
         }
 
@@ -36,7 +36,7 @@ namespace DDD.Presentation.Services
             return await _context.Locais
                 .Include(l => l.Cidade)
                 .Include(l => l.Estado)
-                .FirstOrDefaultAsync(l => l.LOCID == id && l.LOCSITUACAO == 'A'); // Apenas ativo
+                .FirstOrDefaultAsync(l => l.LOCID == id && l.LOCSITUACAO == 'A');
         }
 
         public async Task<List<Local>> SearchByNomeAsync(string termo)
@@ -86,7 +86,7 @@ namespace DDD.Presentation.Services
         {
             var local = await _context.Locais.FindAsync(id);
             if (local == null) return false;
-            local.LOCSITUACAO = situacao; // Atualiza situação
+            local.LOCSITUACAO = situacao;
             await _context.SaveChangesAsync();
             return true;
         }

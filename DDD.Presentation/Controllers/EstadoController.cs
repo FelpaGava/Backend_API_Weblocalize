@@ -18,13 +18,13 @@ namespace DDD.Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Estado>>> GetEstados()
         {
-            return await _service.GetAllAtivosAsync(); // Retorna apenas registros com SITUACAO = 'A'
+            return await _service.GetAllAtivosAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Estado>> GetEstado(int id)
         {
-            var estado = await _service.GetByIdAtivoAsync(id); // Retorna apenas se SITUACAO = 'A'
+            var estado = await _service.GetByIdAtivoAsync(id); 
             if (estado == null) return NotFound();
             return estado;
         }
@@ -32,7 +32,7 @@ namespace DDD.Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Estado>> AddEstado(EstadoDto dto)
         {
-            var estado = new Estado { UFNOME = dto.UFNOME, UFSIGLA = dto.UFSIGLA, UFSITUACAO = 'A' }; // Sempre ativo ao criar
+            var estado = new Estado { UFNOME = dto.UFNOME, UFSIGLA = dto.UFSIGLA, UFSITUACAO = 'A' };
             var created = await _service.AddAsync(estado);
             return CreatedAtAction(nameof(GetEstado), new { id = created.UFID }, created);
         }
@@ -57,7 +57,7 @@ namespace DDD.Presentation.Controllers
         [HttpPut("{id}/desativar")]
         public async Task<IActionResult> DesativarEstado(int id)
         {
-            var sucesso = await _service.DesativarAsync(id, 'I'); // Atualiza SITUACAO para 'I'
+            var sucesso = await _service.DesativarAsync(id, 'I'); 
             if (!sucesso) return NotFound();
             return NoContent();
         }
